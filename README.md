@@ -1,1 +1,1 @@
-# RegularGrammarInterpreter
+# Interpretador para Gramáticas Regulares
