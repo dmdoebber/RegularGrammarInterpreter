@@ -26,8 +26,10 @@ public class main {
             GrammarReader gr = new GrammarReader("gr.json");
             String entrada = new Scanner(System.in).nextLine();
             StringTokenizer str = new StringTokenizer(entrada);
+            SyntaticAnalyzer analyzer = new SyntaticAnalyzer();
             
             System.out.println(gr.validateGrammarGLD());
+            analyzer.generateTree(null, gr.getProduction_rules());
             
             while(str.hasNext())
             {

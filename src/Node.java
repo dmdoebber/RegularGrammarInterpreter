@@ -15,12 +15,12 @@ public class Node {
     
     private Node parent;    
     private boolean isTerminal;
-    private char symbol;
+    private Character symbol;
     private int index;
     
     public List<Node> children;
     
-    public Node(char s, Node p, int i)
+    public Node(Character s, Node p, int i)
     {
         this.parent = p;
         this.symbol = s;
@@ -49,12 +49,12 @@ public class Node {
         this.isTerminal = isT;
     } 
     
-    public char getSymbol()
+    public Character getSymbol()
     {
         return this.symbol;
     }
     
-    public void setSymbol(char c)
+    public void setSymbol(Character c)
     {
         this.symbol = c;
     }
