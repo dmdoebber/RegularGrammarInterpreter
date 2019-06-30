@@ -29,15 +29,24 @@ public class main {
             SyntaticAnalyzer analyzer = new SyntaticAnalyzer();
             
             System.out.println(gr.validateGrammarGLD());
-            analyzer.generateTree(new Node(gr.getInitial_state().charAt(0), null, 0), gr.getProduction_rules());
+            analyzer.generateTree(new Node(gr.getInitial_state(), null, 0), gr.getProduction_rules());
             
             while(str.hasNext())
             {
                 char token = str.nextToken();
                 String sToken = Character.toString(token);
-                
-                System.out.println(token);
+                                
+                if(!analyzer.symbolFound)
+                {
+                    System.out.println("Inválido");
+                    break;
+                }
+                else
+                    System.out.println(token);
             }
+            
+            analyzer.SearchSymbol(analyzer.getRoot(), entrada, 0, "");
+
             
         } catch (FileNotFoundException ex) {
             System.out.println("File not found! " + ex);
