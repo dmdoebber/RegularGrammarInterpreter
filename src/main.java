@@ -29,7 +29,12 @@ public class main {
             SyntaticAnalyzer analyzer = new SyntaticAnalyzer();
             
             System.out.println(gr.validateGrammarGLD());
-            analyzer.generateTree(new Node(gr.getInitial_state(), null, 0), gr.getProduction_rules());
+            Node root = new Node(gr.getInitial_state(), null, 0);
+            List<String> children = gr.getProduction_rules().get(gr.getInitial_state());
+            for(String child : children)
+                root.children.add(new Node(child, root, 0));
+            
+            analyzer.generateTree(root, gr.getProduction_rules());
             
             while(str.hasNext())
             {

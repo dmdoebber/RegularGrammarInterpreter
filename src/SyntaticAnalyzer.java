@@ -51,34 +51,30 @@ public class SyntaticAnalyzer {
         int cont = 0;
         for(Map.Entry<String, List<String>> prod : rules.entrySet())
         {
+            Node exists = FindNode(root, prod.getKey());
+            if(exists == null)
+                exists = new Node(prod.getKey(), null, cont);
+                    
             for(String str : prod.getValue())
             {
-                if(!root.getSymbol().equals(prod.getKey()))
+                if(!prod.getKey().equals(root.getSymbol()))
                 {
-                    Node no = new Node(prod.getKey(), null, cont);
-                
-                    Node newNode = new Node(str, no, cont);                        
-                    no.children.add(newNode);
-                }
-                else
-                {                  
-                    Node newNode = new Node(str, root, cont);                        
-                    root.children.add(newNode);                  
-                }
+                    Node newNode = new Node(str, exists, cont);                        
+                    exists.children.add(newNode);
+                }                    
             }
-            cont++;
+            if(!prod.getKey().equals(root.getSymbol()))
+                insertNode(root, exists.getSymbol(), exists);
+            //cont++;
         }
     }
     
     public void SearchSymbol(Node n, String symbol, int position, String alreadyValidated)
-    {   
-        if(n == null)
-        {
-            if(symbol.equals(alreadyValidated.toString()))
-                System.out.println("Palavra válida!");
-            else
-                return;
-        }            
+    {          
+        if(symbol.equals(alreadyValidated.toString()))
+            System.out.println("Palavra válida!");
+        else
+            return;                  
         
         if(!n.getSymbol().isEmpty())
         {
@@ -94,8 +90,9 @@ public class SyntaticAnalyzer {
                     strBuilder.append(analyzed);
                     alreadyValidated = strBuilder.toString();
                     //Node parent = FindNode(root, c.toString());
-                    for(Node nodezinho : n.children)
-                        SearchSymbol(nodezinho, symbol, position, alreadyValidated);
+                    //for(Node nodezinho : n.children)
+                    Node nodezinho = FindNode(root, c.toString());
+                    SearchSymbol(nodezinho, symbol, position, alreadyValidated);
                 }
                 else
                     if(c.equals(symbol.charAt(position+countPosChanged)))
@@ -114,15 +111,27 @@ public class SyntaticAnalyzer {
         }*/
     }
     
+    public void insertNode(Node n, String symbol, Node toBeInserted)
+    {
+        if(n.getSymbol().contains(symbol))
+        {
+            n.children = toBeInserted.children;
+        }
+        else
+            for(Node m : n.children)
+                insertNode(m, symbol, toBeInserted);      
+        
+    }
+    
     public Node FindNode(Node n, String symbol)
     {
-        if(n.getSymbol().equals(symbol))
+        if(n.getSymbol().contains(symbol))
             return n;
         
         for(Node m : n.children)
-            FindNode(m, symbol);
+            n = FindNode(m, symbol);
         
-        return null;
+        return n;
     }
     
 }
