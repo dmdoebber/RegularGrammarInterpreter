@@ -30,7 +30,7 @@ public class SyntaticAnalyzer {
     
     public void generateTree(Node r, HashMap<String, List<String>> hashRules)
     {
-        this.root = r;        
+        this.root = r;  
         this.rules = hashRules;
         
         int cont = 0;
@@ -38,15 +38,36 @@ public class SyntaticAnalyzer {
         {
             for(String str : prod.getValue())
             {
-                Node no = new Node(prod.getKey().charAt(0), null, cont);
-                for(Character c : str.toCharArray())
+                if(!root.getSymbol().equals(prod.getKey().charAt(0)))
                 {
-                    Node newNode = new Node(c, no, cont);
-                    no.children.add(newNode);
-                }               
+                    Node no = new Node(prod.getKey().charAt(0), null, cont);
+                
+                    for(Character c : str.toCharArray())
+                    {
+                        Node newNode = new Node(c, no, cont);
+                        no.children.add(newNode);
+                    }
+                }
+                else
+                {
+                    for(Character c : str.toCharArray())
+                    {
+                        Node newNode = new Node(c, root, cont);
+                        root.children.add(newNode);
+                    }
+                }
             }
             cont++;
         }
+    }
+    
+    public void SearchSymbol(Node n, String symbol, String alreadyValidated)
+    {
+        if(n.getSymbol().equals(symbol.charAt(0)))
+            return;
+        
+        for(Node m : n.children)
+            SearchSymbol(m, symbol, alreadyValidated);
     }
     
     public Node FindNode(Node n, String symbol)
