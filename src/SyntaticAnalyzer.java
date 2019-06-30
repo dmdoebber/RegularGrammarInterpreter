@@ -70,11 +70,15 @@ public class SyntaticAnalyzer {
     }
     
     public void SearchSymbol(Node n, String symbol, int position, String alreadyValidated)
-    {          
-        if(symbol.equals(alreadyValidated.toString()))
-            System.out.println("Palavra válida!");
-        else
-            return;                  
+    {                  
+        if(position == symbol.length())
+        {
+            if(symbol.equals(alreadyValidated))
+                System.out.println("Palavra válida!");
+            
+            return;
+        }    
+        
         
         if(!n.getSymbol().isEmpty())
         {
@@ -92,7 +96,8 @@ public class SyntaticAnalyzer {
                     //Node parent = FindNode(root, c.toString());
                     //for(Node nodezinho : n.children)
                     Node nodezinho = FindNode(root, c.toString());
-                    SearchSymbol(nodezinho, symbol, position, alreadyValidated);
+                    for(Node nzinho : nodezinho.children)
+                        SearchSymbol(nzinho, symbol, position, alreadyValidated);
                 }
                 else
                     if(c.equals(symbol.charAt(position+countPosChanged)))
@@ -101,9 +106,19 @@ public class SyntaticAnalyzer {
                         strB.append(c.toString());
                         analyzed = strB.toString();
                     }
+                    else
+                    {
+                        System.out.println("Palavra inválida!");
+                        return;
+                    }
+                        
                 
             }
+            
+            
         }
+        else
+            return;
         
         /*for(Node m : n.children)
         {
