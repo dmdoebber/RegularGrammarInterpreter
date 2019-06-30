@@ -35,17 +35,14 @@ public class main {
             {
                 char token = str.nextToken();
                 String sToken = Character.toString(token);
-                                
-                if(!analyzer.symbolFound)
-                {
-                    System.out.println("Inválido");
-                    break;
-                }
-                else
-                    System.out.println(token);
+                              
+                System.out.println(token);
             }
             
-            analyzer.SearchSymbol(analyzer.getRoot(), entrada, 0, "");
+            String s = "";
+            //StringBuilder strBuilder = new StringBuilder(s);
+            for(Node n : analyzer.getRoot().children)
+                analyzer.SearchSymbol(n, entrada, 0, s);
 
             
         } catch (FileNotFoundException ex) {
