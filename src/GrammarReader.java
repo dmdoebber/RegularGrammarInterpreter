@@ -39,10 +39,13 @@ public class GrammarReader {
     public boolean validateGrammarGLD(){
         for(Map.Entry<String, List<String>> prod : production_rules.entrySet()){
             for(String str : prod.getValue()){
-                boolean findUppercase = false;
-                for(Character c : str.toCharArray()){
-                    if(Character.isUpperCase(c) && c == str.charAt(str.length()-1))
-                        return true;            
+                
+                for (int i = 0; i < str.length(); i++){
+                    if (Character.isUpperCase(str.charAt(i))){
+                        if (i == str.length() - 1)
+                            return true;
+                        return false;
+                    }
                 }
             }
         }

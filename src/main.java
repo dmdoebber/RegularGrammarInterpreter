@@ -33,6 +33,7 @@ public class main {
             System.out.println(gr);
             
             
+            System.out.println("\nEntre com a palavra a ser testada: ");
             String entrada = new Scanner(System.in).nextLine();
             
             SyntaticAnalyzer analyzer = new SyntaticAnalyzer();
