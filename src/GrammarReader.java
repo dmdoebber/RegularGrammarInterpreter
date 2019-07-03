@@ -41,11 +41,8 @@ public class GrammarReader {
             for(String str : prod.getValue()){
                 boolean findUppercase = false;
                 for(Character c : str.toCharArray()){
-                    if(Character.isUpperCase(c))
-                        findUppercase = true;
-                    
-                    if (findUppercase && Character.isLowerCase(c))
-                        return false;
+                    if(Character.isUpperCase(c) && c == str.charAt(str.length()-1))
+                        return true;            
                 }
             }
         }
@@ -73,11 +70,14 @@ public class GrammarReader {
     public String toString() {
         String s = "";
         
-        s = non_terminal.stream().map((str) -> str + " ").reduce(s, String::concat);
-        s += "\n";
-            
-        s = terminal.stream().map((str) -> str + " ").reduce(s, String::concat);
-        s += "\n";
+        s += "Não terminais =" + non_terminal + "\n";
+        
+        s += "Terminais = " + terminal + "\n";
+        
+        for (Map.Entry<String, List<String>> entry : production_rules.entrySet())
+        {
+            s += entry.getKey() + "-> " + entry.getValue() + "\n";
+        }
 
         production_rules.entrySet().forEach((entry) -> {
             Map.Entry pair = (Map.Entry) entry;
@@ -85,9 +85,9 @@ public class GrammarReader {
             JSONArray array = (JSONArray) pair.getValue();
         });
         
+        s += "Estado Inicial = [";
         s += initial_state;
-        
-        s+= "\n";
+        s += "]\n";       
             
         return s;
     }

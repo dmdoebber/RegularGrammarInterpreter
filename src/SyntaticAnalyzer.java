@@ -1,5 +1,3 @@
-
-import static java.lang.System.in;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,21 +27,7 @@ public class SyntaticAnalyzer {
     {
         this.root = r;
     }
-    
-    public void VerifyGR(HashMap<String, List<String>> hashRules, String entrada, String ini)
-    {
-        this.rules = hashRules;
-        
-        int cont = 0;
-        for(Map.Entry<String, List<String>> prod : rules.entrySet())
-        {
-            for(String str : prod.getValue())
-            {
-                
-            }
-        }
-    }
-    
+
     public void generateTree(Node r, HashMap<String, List<String>> hashRules)
     {
         this.root = r;  
@@ -66,17 +50,13 @@ public class SyntaticAnalyzer {
             }
             if(!prod.getKey().equals(root.getSymbol()))
                 insertNode(root, exists.getSymbol(), exists);
-            //cont++;
         }
     }
     
     public void SearchSymbol(Node n, String symbol, int position, String alreadyValidated)
     {                  
         if(position == symbol.length())
-        {
-            //if()
-                //validWord = true;
-            
+        {          
             if(n.getSymbol().equals("") && symbol.equals(alreadyValidated))
             {
                 validWord = true;
@@ -148,13 +128,6 @@ public class SyntaticAnalyzer {
                 countProd++;
             } 
         }
-        else
-            return;
-        
-        /*for(Node m : n.children)
-        {
-            SearchSymbol(m, symbol, position, alreadyValidated);
-        }*/
     }
     
     public void insertNode(Node n, String symbol, Node toBeInserted)

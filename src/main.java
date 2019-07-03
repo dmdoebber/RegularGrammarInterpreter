@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import org.json.simple.parser.ParseException;
 
@@ -24,25 +23,28 @@ public class main {
     public static void main(String[] args){
         try {
             GrammarReader gr = new GrammarReader("gr.json");
+            
+            if (!gr.validateGrammarGLD())
+            {
+                System.out.println("Gramatica inválida! ");
+                return;
+            }
+            
+            System.out.println(gr);
+            
+            
             String entrada = new Scanner(System.in).nextLine();
-            StringTokenizer str = new StringTokenizer(entrada);
+            
             SyntaticAnalyzer analyzer = new SyntaticAnalyzer();
             
-            System.out.println(gr.validateGrammarGLD());
             Node root = new Node(gr.getInitial_state(), null, 0);
+            
             List<String> children = gr.getProduction_rules().get(gr.getInitial_state());
+            
             for(String child : children)
                 root.children.add(new Node(child, root, 0));
             
             analyzer.generateTree(root, gr.getProduction_rules());
-            
-            while(str.hasNext())
-            {
-                char token = str.nextToken();
-                String sToken = Character.toString(token);
-                              
-                System.out.println(token);
-            }
             
             String s = "";
             for(Node n : analyzer.getRoot().children)
@@ -60,16 +62,4 @@ public class main {
             System.out.println("Parse " + ex);
         }
     }
-    
-    /*
-    public List<String> findProduction(String token){
-        List<String> ok = new ArrayList<>();
-        
-        for(String prod : producoes){
-            if (prod.startsWith(token))
-                ok.add(prod);
-        }
-        
-        return ok;
-    }*/
 }
