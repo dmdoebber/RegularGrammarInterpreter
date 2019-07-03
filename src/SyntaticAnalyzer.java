@@ -74,11 +74,14 @@ public class SyntaticAnalyzer {
     {                  
         if(position == symbol.length())
         {
-            if(symbol.equals(alreadyValidated))
-                validWord = true;
+            //if()
+                //validWord = true;
             
-            if(n.getSymbol().equals(""))
+            if(n.getSymbol().equals("") && symbol.equals(alreadyValidated))
+            {
+                validWord = true;
                 System.out.println("Verificado: "+ n.getParent().getSymbol().charAt(n.getParent().getSymbol().length()-1) + " -> '" + n.getSymbol()+"'");
+            }
                         
             return;
         }            
@@ -89,6 +92,7 @@ public class SyntaticAnalyzer {
             String analyzed = "";
             StringBuilder strB = new StringBuilder(analyzed);
             StringBuilder strBuilder = new StringBuilder(alreadyValidated);
+            int countProd = 0;
             for(Character c : n.getSymbol().toCharArray())
             {               
                 if(c.toString().equals(c.toString().toUpperCase()))
@@ -128,7 +132,7 @@ public class SyntaticAnalyzer {
                         return;
                     
                 
-                if(c.toString().equals(c.toString().toLowerCase()) && c.equals(n.getSymbol().charAt(n.getSymbol().length()-1)))
+                if(c.toString().equals(c.toString().toLowerCase()) && (countProd == n.getSymbol().length()-1))
                 {
                     position += countPosChanged;
                     strBuilder.append(analyzed);
@@ -141,6 +145,7 @@ public class SyntaticAnalyzer {
                     
                     return;
                 }
+                countProd++;
             } 
         }
         else
