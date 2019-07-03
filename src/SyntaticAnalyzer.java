@@ -18,6 +18,7 @@ public class SyntaticAnalyzer {
     private Node root;
     private HashMap<String, List<String>> rules;
     public boolean symbolFound = false;
+    public boolean validWord = false;
     
     public Node getRoot()
     {
@@ -74,11 +75,13 @@ public class SyntaticAnalyzer {
         if(position == symbol.length())
         {
             if(symbol.equals(alreadyValidated))
-                System.out.println("Palavra válida!");
+                validWord = true;
             
+            if(n.getSymbol().equals(""))
+                System.out.println("Verificado: "+ n.getParent().getSymbol().charAt(n.getParent().getSymbol().length()-1) + " -> '" + n.getSymbol()+"'");
+                        
             return;
-        }    
-        
+        }            
         
         if(!n.getSymbol().isEmpty())
         {
@@ -93,29 +96,52 @@ public class SyntaticAnalyzer {
                     position += countPosChanged;
                     strBuilder.append(analyzed);
                     alreadyValidated = strBuilder.toString();
-                    //Node parent = FindNode(root, c.toString());
-                    //for(Node nodezinho : n.children)
+                    
+                    System.out.println("Verificado: "+ n.getParent().getSymbol().charAt(n.getParent().getSymbol().length()-1) + " -> " + n.getSymbol());
+                    
                     Node nodezinho = FindNode(root, c.toString());
                     for(Node nzinho : nodezinho.children)
-                        SearchSymbol(nzinho, symbol, position, alreadyValidated);
+                        if(validWord)
+                            return;
+                        else
+                            SearchSymbol(nzinho, symbol, position, alreadyValidated);                  
+                    
                 }
                 else
-                    if(c.equals(symbol.charAt(position+countPosChanged)))
+                    if((position+countPosChanged) < symbol.length())
                     {
-                        countPosChanged++;
-                        strB.append(c.toString());
-                        analyzed = strB.toString();
+                        if(c.equals(symbol.charAt(position+countPosChanged)))
+                        {
+                            countPosChanged++;
+                            strB.append(c.toString());
+                            analyzed = strB.toString();                            
+                        } 
+                        else
+                        {
+                            System.out.println("Não reconhecido caracter "+ symbol.charAt(position+countPosChanged) 
+                                    +" na posição "+ countPosChanged +" a produção "
+                                    + n.getParent().getSymbol().charAt(n.getParent().getSymbol().length()-1) + " -> " + n.getSymbol());
+                            return;
+                        }
                     }
                     else
-                    {
-                        System.out.println("Palavra inválida!");
                         return;
-                    }
-                        
+                    
                 
-            }
-            
-            
+                if(c.toString().equals(c.toString().toLowerCase()) && c.equals(n.getSymbol().charAt(n.getSymbol().length()-1)))
+                {
+                    position += countPosChanged;
+                    strBuilder.append(analyzed);
+                    alreadyValidated = strBuilder.toString();
+                    System.out.println("Verificado: "+ n.getParent().getSymbol().charAt(n.getParent().getSymbol().length()-1) + " -> " + n.getSymbol());
+                    
+                    if(position == symbol.length())
+                        if(symbol.equals(alreadyValidated))
+                            validWord = true;
+                    
+                    return;
+                }
+            } 
         }
         else
             return;

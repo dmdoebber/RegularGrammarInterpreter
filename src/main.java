@@ -45,9 +45,13 @@ public class main {
             }
             
             String s = "";
-            //StringBuilder strBuilder = new StringBuilder(s);
             for(Node n : analyzer.getRoot().children)
                 analyzer.SearchSymbol(n, entrada, 0, s);
+            
+            if(analyzer.validWord)
+                System.out.println("Palavra válida!");
+            else
+                System.out.println("Palavra inválida!");
 
             
         } catch (FileNotFoundException ex) {
